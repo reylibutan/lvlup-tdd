@@ -37,13 +37,12 @@ public class InterestAmountCalculator {
    *    25000, 0.0175
    * </pre>
    *
-   * @param investmentAmt
-   * @return
+   * @param investmentAmt investment amount
+   * @return the calculated investment interest amount
    */
   public BigDecimal calcInterestAmt(BigDecimal investmentAmt) {
     if (investmentAmt == null || isLessThan(investmentAmt, ZERO)) {
-      throw new IllegalArgumentException(
-          "Null or negative amounts are not supported in this interest calculation.");
+      throw new IllegalArgumentException("Null or negative amounts are not supported in this interest calculation.");
     }
 
     BigDecimal interestRate = ZERO;
@@ -65,13 +64,10 @@ public class InterestAmountCalculator {
     Path path = Paths.get(filePath);
     try (Stream<String> lines = Files.lines(path)) {
       // TODO: better exception handling here especially for input errors (ex. non-numbers)
-      lines.forEach(
-          l -> {
-            String[] cols = l.split(",");
-            interestRates.add(
-                new InterestAmountThreshold(
-                    new BigDecimal(cols[0].trim()), new BigDecimal(cols[1].trim())));
-          });
+      lines.forEach(l -> {
+        String[] cols = l.split(",");
+        interestRates.add(new InterestAmountThreshold(new BigDecimal(cols[0].trim()), new BigDecimal(cols[1].trim())));
+      });
     } catch (IOException e) {
       // TODO: log here
       throw new RuntimeException("Unable to read file=({" + filePath + "})", e);
